@@ -50,12 +50,11 @@ $keypair = $compute->Keypair(array( 'name' => 'daniel-challenges', 'publicKey' =
 foreach (range(1, $num) as $number ){
     $server = $compute->Server();
     $server->name = "${name}${number}";
-    $server->flavor = $compute->Flavor(2);
+    $server->flavor = $compute->Flavor('2');
     $server->image = $compute->Image('f70ed7c7-b42e-4d77-83d8-40fa29825b85');
     //$server->keypair = $keypair;
     $server->addFile('/root/.ssh/authorized_keys', $key);
     $server->Create();
-    checkaction($server, ServerState::ACTIVE);
 //    $server = $compute->Server();
 //    $server->create(array(
 //        'name'     => $name . $number,
@@ -66,10 +65,11 @@ foreach (range(1, $num) as $number ){
 //            'name'      => 'daniel-challenges',
 //        )
 //    ));
-    array_push($servers, $server->id);
+    array_push($servers, $server);
 }
 
 foreach($servers as $server) {
-    printf("ip address: %s\n", $compute->Server($server)->ip(4));
+    checkaction($server, ServerState::ACTIVE);
+    printf("\nName: %s\nip address: %s\n\n", $server->name, $server->ip(4));
 }
 ?>

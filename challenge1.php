@@ -13,7 +13,7 @@ $server->Create();
 
 checkaction($server, ServerState::ACTIVE);
 
-printf("accessIPv4: %s\n", $server->ip(4));
+printf("\naccessIPv4: %s\n", $server->ip(4));
 printf("Root Password: %s\n", $server->adminPass);
 
 ?>
