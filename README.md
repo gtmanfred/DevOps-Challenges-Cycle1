@@ -1,7 +1,7 @@
 DevOps-Challenges-Cycle1
 ========================
 
-Your name:  
+Your name: Daniel Wallace
 
 Support DevOps Challenges Cycle 1
 
