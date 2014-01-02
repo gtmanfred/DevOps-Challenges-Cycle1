@@ -40,11 +40,7 @@ $ipaddress = trim($ipaddress, "\n");
 
 printf("TTL: ");
 $ttl = fgets($handle);
-if ( $ttl == "\n" ) {
-    $ttl = 300;
-} else {
-    $ttl = trim($ttl, "\n");
-}
+$ttl = ( $ttl == "\n" ) ? 300 : trim($ttl);
 
 printf("Comment (160 Characters): ");
 $comment = fgets($handle);
