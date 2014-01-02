@@ -47,12 +47,10 @@ $num = fgets($handle);
 $range = range(1, 3);
 while ( ! in_array($num, $range)): 
     echo "Acceptable range [1-3]: ";
-    $handle = fopen ("php://stdin","r");
     $num = fgets($handle);
 endwhile;
 
 echo "Choose a naming scheme: ";
-$handle = fopen ("php://stdin","r");
 $name = fgets($handle);
 $name = trim($name, "\n");
 $servers = array();
@@ -62,7 +60,6 @@ if (file_exists( expand_tilde("~/.ssh/id_rsa.pub") ) ) {
     //$keyfile = expand_tilde("~/.ssh/id_rsa.pub");
 } else {
     echo "Location of an ssh key: ";
-    $handle = fopen ("php://stdin","r");
     $keyfile = fgets($handle);
     $keyfile = trim($keyfile, "\n");
     $keyfile = expand_tilde($keyfile);
