@@ -1,19 +1,8 @@
 <?php
-require_once 'autoload.php';
-use OpenCloud\Rackspace;
 
-function check_all($service, $servers) {
-    $returnVal = true;
-    echo "\e[0K";
-    foreach($servers as $server) {
-        if ( $service->Server($server)->status == 'BUILD' ) {
-            $returnVal = false;
-        }
-        printf("%s/%s: %s\n", $service->Server($server)->name, $service->Server($server)->status,
-            $service->Server($server)->progress);
-    }
-    return $returnVal;
-}
+require "auth.php";
+require "check.php";
+use OpenCloud\Compute\Constants\ServerState;
 
 function expand_tilde($path)
 {
@@ -22,21 +11,6 @@ function expand_tilde($path)
     }
 
     return $path;
-}
-
-$ini_array = parse_ini_file(getenv("HOME") . "/.rackspace_cloud_credentials", true);
-
-$client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
-    'username' => $ini_array['rackspace']['username'],
-    'apiKey'   => $ini_array['rackspace']['apikey']
-));
-
-$client->authenticate();
-
-try {
-    $region = $ini_array['rackspace']['region'];
-} catch (Exception $e) {
-    $region = 'IAD';
 }
 
 $compute = $client->computeService('cloudServersOpenStack', $region );
@@ -78,9 +52,10 @@ foreach (range(1, $num) as $number ){
     $server->name = "${name}${number}";
     $server->flavor = $compute->Flavor(2);
     $server->image = $compute->Image('f70ed7c7-b42e-4d77-83d8-40fa29825b85');
-    #$server->keypair = $keypair;
+    //$server->keypair = $keypair;
     $server->addFile('/root/.ssh/authorized_keys', $key);
     $server->Create();
+    checkaction($server, ServerState::ACTIVE);
 //    $server = $compute->Server();
 //    $server->create(array(
 //        'name'     => $name . $number,
@@ -93,10 +68,6 @@ foreach (range(1, $num) as $number ){
 //    ));
     array_push($servers, $server->id);
 }
-
-while (! check_all($compute, $servers) ):
-    sleep(1);
-endwhile;
 
 foreach($servers as $server) {
     printf("ip address: %s\n", $compute->Server($server)->ip(4));

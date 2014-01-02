@@ -1,6 +1,8 @@
 <?php
-require_once 'autoload.php';
+require "auth.php";
+require "check.php";
 use OpenCloud\Rackspace;
+
 
 $ini_array = parse_ini_file(getenv("HOME") . "/.rackspace_cloud_credentials", true);
 
@@ -17,15 +19,8 @@ try {
     $region = 'IAD';
 }
 
-//$dns = $client->dnsService();
-//$domains = $dns->domainList(array( "name" => ""));
 $dns = $client->dnsService();
 $domainList = $dns->domainList();
-
-//while($domain = $domains->Next()) {
-//    printf("%s\n", $domain->Name());
-//}
-
 
 $count = 0;
 $domains = array();
@@ -84,6 +79,8 @@ $newsub->name = $subdomain . "." . $domain->Name();
 $newsub->ttl = $ttl;
 $newsub->comment = $comment;
 $newsub->data = $ipaddress;
-$newsub->create();
+$response = $newsub->create();
+
+checkaction($response, "COMPLETE");
 
 ?>
