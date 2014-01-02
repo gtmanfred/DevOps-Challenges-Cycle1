@@ -1,0 +1,12 @@
+[submodule "classloader"]
+	path = classloader
+	url = git://github.com/hailocab/php-spl-class-loader.git
+[submodule "php-opencloud"]
+	path = php-opencloud
+	url = git://github.com/rackspace/php-opencloud
+[submodule "guzzle"]
+	path = guzzle
+	url = git://github.com/guzzle/guzzle
+[submodule "symfony"]
+	path = symfony
+	url = git://github.com/symfony/symfony

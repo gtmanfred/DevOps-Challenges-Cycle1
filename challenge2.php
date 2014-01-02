@@ -1,5 +1,5 @@
 <?php
-require 'vendor/autoload.php';
+require_once 'autoload.php';
 use OpenCloud\Rackspace;
 
 function check_all($service, $servers) {
