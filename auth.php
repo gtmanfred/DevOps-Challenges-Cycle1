@@ -6,7 +6,7 @@ $ini_array = parse_ini_file(getenv("HOME") . "/.rackspace_cloud_credentials", tr
 
 $client = new Rackspace(Rackspace::US_IDENTITY_ENDPOINT, array(
     'username' => $ini_array['rackspace']['username'],
-    'apiKey'   => $ini_array['rackspace']['apikey']
+    'apiKey'   => $ini_array['rackspace']['api_key']
 ));
 
 $client->authenticate();
