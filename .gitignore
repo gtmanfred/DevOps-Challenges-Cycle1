@@ -3,3 +3,5 @@ vendor
 scripts/
 #python2 virtualenv
 _python/
+__pycache__/
+*.pyc

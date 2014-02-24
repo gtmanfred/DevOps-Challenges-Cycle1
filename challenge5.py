@@ -3,40 +3,20 @@ from __future__ import print_function
 from auth import Rackspace
 import argparse
 import urllib2
-import time
 
 
 class Challenge5(Rackspace):
-    def _get(self, name):
-        for db in self.cloud_databases.list():
-            if db.name == name:
-                return db
-        return False
-
-    def _check_status(self, inst_name, status='ACTIVE'):
-        while self._get(inst_name).status != status:
-            time.sleep(1)
-
     def _randword(self):
         randword = urllib2.urlopen(
             'http://randomword.setgetgo.com/get.php'
         )
         return randword.read().strip()
 
-    def get_hostname(self, inst_name):
-        return self._get(inst_name).hostname
-
-    def get_databases(self, inst_name):
-        return self._get(inst_name).list_databases()
-
-    def get_users(self, inst_name):
-        return self._get(inst_name).list_users()
-
     def flavors(self):
         return self.cloud_databases.list_flavors()
 
     def check_name(self, name):
-        if self._get(name):
+        if self.get_cdb(name):
             return True
         return False
 
@@ -55,7 +35,7 @@ class Challenge5(Rackspace):
                 return False
             name += str(num)
         db = self.cloud_databases.create(name, flavor, volume)
-        self._check_status(name)
+        self.check_status(name)
         return db.name
 
     def create_database(self, inst, db_name):
@@ -67,7 +47,7 @@ class Challenge5(Rackspace):
         return inst.create_user(user_name, password, db_names)
 
     def create_databases(self, inst_name, number):
-        inst = self._get(inst_name)
+        inst = self.get_cdb(inst_name)
         dbs = []
         users = []
         while number > 0:
@@ -99,4 +79,4 @@ if __name__ == '__main__':
     args = parser.parse_args()
     name = this.create(args.name)
     this.create_databases(name, args.number)
-    print(this.get_hostname(name))
+    print(this.get_cdb_hostname(name))
