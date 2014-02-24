@@ -1,4 +1,5 @@
 <?php
+require 'vendor/autoload.php';
 require "auth.php";
 require "check.php";
 
@@ -60,6 +61,6 @@ $newsub->comment = $comment;
 $newsub->data = $ipaddress;
 $response = $newsub->create();
 
-checkaction($response, "COMPLETE");
+checkaction($response, "COMPLETED");
 
 ?>

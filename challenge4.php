@@ -1,5 +1,6 @@
 <?php
 
+require 'vendor/autoload.php';
 require "auth.php";
 require "check.php";
 

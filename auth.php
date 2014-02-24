@@ -1,5 +1,5 @@
 <?php
-require "autoload.php";
+require 'vendor/autoload.php';
 use OpenCloud\Rackspace;
 
 $ini_array = parse_ini_file(getenv("HOME") . "/.rackspace_cloud_credentials", true);
